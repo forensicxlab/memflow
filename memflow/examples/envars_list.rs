@@ -117,7 +117,13 @@ fn extract_args(matches: &ArgMatches) -> Result<(OsChain<'_>, &str, &str)> {
 
     Ok((
         OsChain::new(conn_iter, os_iter)?,
-        matches.get_one::<String>("process").unwrap(),
-        matches.get_one::<String>("envar").unwrap(),
+        matches
+            .get_one::<String>("process")
+            .map(String::as_str)
+            .unwrap(),
+        matches
+            .get_one::<String>("envar")
+            .map(String::as_str)
+            .unwrap_or(""),
     ))
 }
