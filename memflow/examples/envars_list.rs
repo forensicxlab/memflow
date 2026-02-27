@@ -38,9 +38,11 @@ fn main() -> Result<()> {
         println!("    {}={}", ev.name.as_ref(), ev.value.as_ref());
     }
 
-    match process.envar_by_name(envar) {
-        Ok(variable) => println!("FOUND {:?}", variable),
-        Err(_) => println!("ENVAR NOT FOUND"),
+    if !envar.is_empty() {
+        match process.envar_by_name(envar) {
+            Ok(variable) => println!("FOUND {:?}", variable),
+            Err(_) => println!("ENVAR NOT FOUND"),
+        }
     }
 
     Ok(())
@@ -77,7 +79,7 @@ fn parse_args() -> ArgMatches {
                 .long("envar")
                 .short('e')
                 .action(ArgAction::Set)
-                .required(true),
+                .required(false),
         )
         .get_matches()
 }
